@@ -1,0 +1,71 @@
+.weather-card {
+  animation: fadeIn 0.5s ease-in;
+  transition: transform 0.3s ease;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: white;
+  margin-top: 1rem;
+}
+
+.weather-card:hover {
+  transform: scale(1.03);
+}
+
+.weather-info img {
+  width: 100px;
+  height: 100px;
+}
+
+.temp {
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.details-link {
+  margin-top: 1rem;
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #1e40af;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.details-link:hover {
+  background-color: #f0f0f0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.weather-card.sunny {
+  background: linear-gradient(to bottom, #fceabb, #f8b500);
+}
+
+.weather-card.cloudy {
+  background: linear-gradient(to bottom, #d3d3d3, #a0a0a0);
+}
+
+.weather-card.rainy {
+  background: linear-gradient(to bottom, #4e54c8, #8f94fb);
+}
+
+.weather-card.snowy {
+  background: linear-gradient(to bottom, #e0eafc, #cfdef3);
+}
+
+.weather-card.default {
+  background: linear-gradient(to bottom, #dbeafe, #60a5fa);
+}
