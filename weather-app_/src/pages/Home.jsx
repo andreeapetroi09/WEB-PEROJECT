@@ -8,18 +8,17 @@ function Home() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState('');
 
-
   const handleSearch = async () => {
     const apiKey = '2626d8fea9b3d945589c6d1276ffdbad';
     const formattedCity = city.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${formattedCity},RO&appid=${apiKey}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${formattedCity},RO&appid=${apiKey}&units=metric&lang=en`
       );
 
       if (!response.ok) {
-        setError('Orașul nu a fost găsit.');
+        setError('City not found.');
         setWeather(null);
         return;
       }
@@ -29,10 +28,9 @@ function Home() {
       setError('');
       localStorage.setItem('lastCity', city);
     } catch (err) {
-      setError('Eroare la încărcarea datelor.');
+      setError('Error fetching data.');
     }
   };
-
 
   useEffect(() => {
     const savedCity = localStorage.getItem('lastCity');
@@ -40,7 +38,6 @@ function Home() {
       setCity(savedCity);
     }
   }, []);
-
 
   const getBackgroundClass = () => {
     if (!weather) return 'default-bg';

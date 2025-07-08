@@ -6,12 +6,12 @@ function WeatherCard({ data }) {
   const temp = data.main.temp;
   const weatherMain = data.weather[0].main.toLowerCase();
 
-  const currentTime = new Date().toLocaleTimeString([], {
+  const currentTime = new Date().toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
   });
 
-  const currentDate = new Date().toLocaleDateString('ro-RO', {
+  const currentDate = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
@@ -37,7 +37,7 @@ function WeatherCard({ data }) {
           alt="weather icon"
         />
         <p className="temp">{Math.round(temp)}°C</p>
-        <Link to={`/details/${data.name}`} className="details-link">Vezi detalii</Link>
+        <Link to={`/details/${data.name}`} className="details-link">View details</Link>
       </div>
     </div>
   );

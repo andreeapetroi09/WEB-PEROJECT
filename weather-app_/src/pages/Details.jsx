@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import './Details.css';
 
 function Details() {
   const { cityName } = useParams();
@@ -11,17 +12,17 @@ function Details() {
 
   useEffect(() => {
     if (!cityName) {
-      setError('Orașul nu este specificat.');
+      setError('City is not specified.');
       return;
     }
 
     const fetchDetails = async () => {
       try {
         const res = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`
+          `https://api.openweathermap.org/data/2.5/weather?q=${cityName},RO&appid=${apiKey}&units=metric&lang=en`
         );
         if (!res.ok) {
-          throw new Error('Eroare la încărcarea detaliilor');
+          throw new Error('Error loading details.');
         }
         const data = await res.json();
         setDetails(data);
@@ -33,34 +34,22 @@ function Details() {
     fetchDetails();
   }, [cityName]);
 
-  if (error) return <div style={{ padding: '20px' }}>{error}</div>;
-
-  if (!details) return <div style={{ padding: '20px' }}>Se încarcă...</div>;
+  if (error) return <div className="details-container"><div className="details-card">{error}</div></div>;
+  if (!details) return <div className="details-container"><div className="details-card">Loading...</div></div>;
 
   return (
-    <div style={{ padding: '30px', maxWidth: '600px', margin: '0 auto', backgroundColor: '#f4f4f4', borderRadius: '12px' }}>
-      <h2>{details.name}, {details.sys.country}</h2>
-      <p><strong>Temperatură:</strong> {details.main.temp} °C</p>
-      <p><strong>Resimțită:</strong> {details.main.feels_like} °C</p>
-      <p><strong>Umiditate:</strong> {details.main.humidity} %</p>
-      <p><strong>Presiune:</strong> {details.main.pressure} hPa</p>
-      <p><strong>Viteza vântului:</strong> {details.wind.speed} m/s</p>
-      <p><strong>Descriere:</strong> {details.weather[0].description}</p>
+    <div className="details-container">
+      <div className="details-card">
+        <h2>{details.name}, {details.sys.country}</h2>
+        <p><strong>Temperature:</strong> {details.main.temp} °C</p>
+        <p><strong>Feels like:</strong> {details.main.feels_like} °C</p>
+        <p><strong>Humidity:</strong> {details.main.humidity} %</p>
+        <p><strong>Pressure:</strong> {details.main.pressure} hPa</p>
+        <p><strong>Wind speed:</strong> {details.wind.speed} m/s</p>
+        <p><strong>Description:</strong> {details.weather[0].description}</p>
 
-      <button
-        onClick={() => navigate('/')}
-        style={{
-          marginTop: '20px',
-          padding: '10px 20px',
-          backgroundColor: '#2563eb',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer',
-        }}
-      >
-        Înapoi
-      </button>
+        <button onClick={() => navigate('/')}>Back</button>
+      </div>
     </div>
   );
 }
