@@ -1,21 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './WeatherCard.css';
+import { useFavorites } from '../context/FavoritesContext';
 
 function WeatherCard({ data }) {
+  const { favorites, addFavorite, removeFavorite } = useFavorites();
   const temp = data.main.temp;
   const weatherMain = data.weather[0].main.toLowerCase();
 
-  const currentTime = new Date().toLocaleTimeString('en-US', {
+  const currentTime = new Date().toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
   });
 
-  const currentDate = new Date().toLocaleDateString('en-US', {
+  const currentDate = new Date().toLocaleDateString('en-GB', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   });
+
+  const isFavorite = favorites.includes(data.name);
+  const handleFavorite = () => {
+    isFavorite ? removeFavorite(data.name) : addFavorite(data.name);
+  };
 
   const getCardClass = () => {
     if (weatherMain.includes('clear')) return 'weather-card sunny';
@@ -37,7 +44,12 @@ function WeatherCard({ data }) {
           alt="weather icon"
         />
         <p className="temp">{Math.round(temp)}°C</p>
-        <Link to={`/details/${data.name}`} className="details-link">View details</Link>
+        <div className="button-group">
+          <Link to={`/details/${data.name}`} className="details-link">Vezi detalii</Link>
+          <button className="details-link" onClick={handleFavorite}>
+            {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+          </button>
+        </div>
       </div>
     </div>
   );
